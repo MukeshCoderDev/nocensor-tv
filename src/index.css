@@ -1,0 +1,11 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  @apply bg-gray-900 text-white;
+}
+
+.nocensor-gradient {
+  background: linear-gradient(135deg, #8a2be2 0%, #ff1493 100%);
+}
