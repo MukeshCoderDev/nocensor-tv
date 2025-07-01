@@ -18,8 +18,10 @@
     "preload": "node scripts/preload-content.js"
   },
   "dependencies": {
+    "@emotion/styled": "^11.14.1",
     "@headlessui/react": "^2.2.4",
     "@helia/dag-json": "^1.0.0",
+    "@helia/ipns": "^8.2.3",
     "@helia/strings": "^1.0.0",
     "@helia/unixfs": "^1.0.0",
     "@heroicons/react": "^2.2.0",

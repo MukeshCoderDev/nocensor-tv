@@ -8,6 +8,9 @@ import Icon from '../components/Icon';
 import { RECOMMENDED_VIDEOS, TOP_CREATORS, PLATFORM_FEATURES, THEME_COLORS } from '../constants';
 import { Video } from '../types';
 
+// Import the decentralized IPFS uploader
+import DecentralizedIpfsUploader from '../src/components/DecentralizedIpfsUploader';
+
 interface HomePageProps {
   onPlayVideo: (video: Video) => void;
 }
@@ -36,6 +39,11 @@ const HomePage: React.FC<HomePageProps> = ({ onPlayVideo }) => {
             </button>
           </div>
         </div>
+      </div>
+
+      {/* Decentralized IPFS Uploader for build deployment */}
+      <div className="my-8">
+        <DecentralizedIpfsUploader />
       </div>
 
       {/* Platform Features */}
