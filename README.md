@@ -1,24 +1,63 @@
-[![License: Polyform Shield 1.0.0](https://img.shields.io/badge/License-Polyform_Shield_1.0.0-blue.svg)](https://polyformproject.org/licenses/shield/1.0.0/)
-[![GitHub](https://img.shields.io/badge/GitHub-MukeshCoderDev-blue)](https://github.com/MukeshCoderDev)
-
 # NoCensor TV - Decentralized Adult Content Platform
 
-## 🚀 Features
-- Blockchain-based video uploads
-- NFT content monetization
-- 90% creator revenue share
-- IPFS decentralized storage
+[![Web3](https://img.shields.io/badge/Web3-Pure_Decentralization-brightgreen)](https://nocensor.tv)
+[![License: Polyform Shield 1.0.0](https://img.shields.io/badge/License-Polyform_Shield_1.0.0-blue.svg)](https://polyformproject.org/licenses/shield/1.0.0/)
 
-## 🔒 Security First
-- Secrets stored locally only
-- Always use .env.example template
+## The First Truly Decentralized Adult Content Platform
 
-## ⚙️ Developer Setup
-1. \
-pm install\
-2. Create \.env\ from \.env.example\
-3. \
-pm run dev\
+NoCensor TV is built on:
+- 🌐 Helia for browser-native IPFS
+- 🔗 Ethereum/Polygon blockchain
+- 💰 90% creator revenue model
+- 🛡️ Censorship-resistant architecture
 
-## 🛡️ License
+## Features
+- P2P video streaming with no central servers
+- NFT-based content access control
+- DAO governance for platform decisions
+- Encrypted content storage
+- Real-time analytics
+
+## Getting Started
+
+### Prerequisites
+- Node.js v18+
+- MetaMask wallet
+- IPFS Companion browser extension
+
+### Installation
+```
+git clone https://github.com/MukeshCoderDev/nocensor-tv.git
+cd nocensor-tv
+npm install
+```
+
+### Configuration
+1. Copy `.env.example` to `.env`
+2. Add your keys:
+   - WEB3_STORAGE_TOKEN
+   - CRUST_CHAIN_RPC
+   - DAO_CONTRACT_ADDRESS
+
+### Running Locally
+```
+npm run dev
+```
+
+### Deployment
+```
+# Deploy contracts to Polygon
+npm run deploy:contracts
+
+# Deploy frontend to IPFS
+npm run deploy:frontend
+```
+
+## Architecture
+![System Architecture](docs/architecture.png)
+
+## Contributing
+See [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines.
+
+## License
 Protected by [Polyform Shield 1.0.0](https://polyformproject.org/licenses/shield/1.0.0/)

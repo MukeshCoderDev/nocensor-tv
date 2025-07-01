@@ -1,23 +1,25 @@
 import { createHelia } from 'helia';
-import { http } from '@helia/http';
+import { unixfs } from '@helia/unixfs';
 
 let helia: any;
 
 export const initIPFS = async () => {
-  helia = await createHelia({
-    blockBrokers: [http()]
-  });
+  helia = await createHelia();
 };
 
 export const uploadToIPFS = async (file: File) => {
   if (!helia) await initIPFS();
-  const arrayBuffer = await file.arrayBuffer();
-  const cid = await helia.blockstore.put(new Uint8Array(arrayBuffer));
+  const fs = unixfs(helia);
+  const { cid } = await fs.addBytes(await file.arrayBuffer());
   return cid.toString();
 };
 
 export const fetchFromIPFS = async (cid: string) => {
   if (!helia) await initIPFS();
-  const response = await fetch(`https://ipfs.io/ipfs/${cid}`);
-  return await response.json();
+  const fs = unixfs(helia);
+  const chunks = [];
+  for await (const chunk of fs.cat(cid)) {
+    chunks.push(chunk);
+  }
+  return new Blob(chunks);
 };

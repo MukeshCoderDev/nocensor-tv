@@ -5,6 +5,7 @@ import AccessControl from '../components/AccessControl';
 import { getContract } from '../utils/contracts';
 import { fetchFromIPFS } from '../utils/ipfs';
 import { ethers } from 'ethers'; // Ensure ethers is imported
+import DecentralizedVideoPlayer from '../components/DecentralizedVideoPlayer.jsx';
 
 interface Video {
     id: string;
@@ -99,15 +100,16 @@ export default function Player() {
   return (
     <div className="container mx-auto px-4 py-8">
       {!accessGranted ? (
-        <AccessControl video={video} onPurchase={purchaseAccess} />
+        <AccessControl 
+          contentId={Number(video.id)} 
+          price={video.price} 
+          accessType={video.accessType === 2 ? 'PPV' : video.accessType === 1 ? 'SUBSCRIPTION' : 'NFT'} 
+        />
       ) : (
         <div>
           <div className="bg-black rounded-xl mb-6">
-            <video
-              src={video.videoUrl}
-              controls
-              className="w-full max-h-[70vh]"
-            />
+            {/* Decentralized video playback */}
+            <DecentralizedVideoPlayer cid={video.cid} />
           </div>
 
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
