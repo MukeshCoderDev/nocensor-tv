@@ -9,3 +9,15 @@ body {
 .nocensor-gradient {
   background: linear-gradient(135deg, #8a2be2 0%, #ff1493 100%);
 }
+
+/* Tooltip styles */
+.group .group-hover\:opacity-100 {
+  visibility: hidden;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.group:hover .group-hover\:opacity-100 {
+  visibility: visible;
+  opacity: 1;
+}

@@ -13,10 +13,21 @@ NoCensor TV is built on:
 
 ## Features
 - P2P video streaming with no central servers
+- **Decentralized Arweave Video Uploader**: Enjoy free, experimental uploads on testnet, with permanent, censorship-resistant storage on Arweave mainnet. Features a professional, step-by-step UI with real-time progress indication.
 - NFT-based content access control
 - DAO governance for platform decisions
 - Encrypted content storage
 - Real-time analytics
+
+## How Video Storage Works
+
+### Testnet (Sepolia/Mumbai):
+Uploading videos on our test networks is completely free. There is no cost or token requirement—feel free to experiment and make sure everything works as expected.
+
+### Mainnet (Arweave):
+When you’re ready to go live, each video upload becomes a permanent, one‑time purchase of decentralized storage on the Arweave network. You will be prompted to fund your Arweave wallet with the exact amount of AR tokens needed to store your file forever. Once the upload completes, your video is immutably stored across a global, censorship‑resistant network—no recurring fees, no middlemen, and no possibility of takedown.
+
+Note: You only pay Arweave storage fees once per video. Any excess AR you deposit but don’t use will be automatically returned to your wallet.
 
 ## Getting Started
 
