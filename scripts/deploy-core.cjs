@@ -44,6 +44,12 @@ async function main() {
   console.log("TipJar deployed to:", await tipJar.getAddress());
 
   console.log("Core contracts deployed successfully!");
+
+  // 6. Deploy ContentStorage (new contract for Arweave TxIDs)
+  const ContentStorage = await hre.ethers.getContractFactory("ContentStorage");
+  const contentStorage = await ContentStorage.deploy();
+  await contentStorage.waitForDeployment();
+  console.log("ContentStorage deployed to:", await contentStorage.getAddress());
 }
 
 main()

@@ -3,7 +3,7 @@ import { useParams } from 'react-router-dom';
 import { useWeb3 } from '../context/Web3Context';
 import AccessControl from '../components/AccessControl';
 import { getContract } from '../utils/contracts';
-import { fetchFromIPFS } from '../utils/ipfs';
+// import { fetchFromIPFS } from '../utils/ipfs'; // No longer using IPFS
 import { ethers } from 'ethers'; // Ensure ethers is imported
 import DecentralizedVideoPlayer from '../components/DecentralizedVideoPlayer.jsx';
 
@@ -19,7 +19,7 @@ interface Video {
     views: string;
     price: number;
     accessType: number;
-    cid: string;
+    arweaveTxId?: string; // Changed from cid to arweaveTxId
     videoUrl?: string; // Added for video source
 }
 
@@ -47,16 +47,12 @@ export default function Player() {
           views: '18.2K',
           price: 0.15,
           accessType: 2, // PPV
-          cid: 'Qm...'
+          arweaveTxId: 'YOUR_ARWEAVE_TX_ID_HERE' // Placeholder for Arweave TxID
         };
 
-        // Fetch video metadata from IPFS
-        const metadata = await fetchFromIPFS(mockVideo.cid);
-
-        setVideo({
-          ...mockVideo,
-          ...metadata
-        });
+        // For now, we'll directly set the video. In a real scenario,
+        // you might fetch metadata from a smart contract or a separate Arweave transaction.
+        setVideo(mockVideo);
 
         // Check access
         if (account && library) { // Keep this check
@@ -109,7 +105,7 @@ export default function Player() {
         <div>
           <div className="bg-black rounded-xl mb-6">
             {/* Decentralized video playback */}
-            <DecentralizedVideoPlayer cid={video.cid} />
+            <DecentralizedVideoPlayer arweaveTxId={video.arweaveTxId} />
           </div>
 
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
