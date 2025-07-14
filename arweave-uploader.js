@@ -4,12 +4,16 @@ import { Buffer } from 'buffer';
 
 export async function uploadToArweave(fileBuffer, arweaveKey) {
   const arweave = Arweave.init({
-    host: 'arweave.net',
-    port: 443,
-    protocol: 'https'
+    host: import.meta.env.VITE_REACT_APP_ARWEAVE_HOST,
+    port: import.meta.env.VITE_REACT_APP_ARWEAVE_PORT,
+    protocol: import.meta.env.VITE_REACT_APP_ARWEAVE_PROTOCOL,
   });
 
-  const bundlr = new Bundlr("http://node2.bundlr.network", "arweave", arweaveKey);
+  const bundlr = new Bundlr(
+    import.meta.env.VITE_REACT_APP_BUNDLR_NODE,
+    "arweave",
+    arweaveKey
+  );
 
   try {
     const dataStream = Buffer.from(fileBuffer);
