@@ -45,3 +45,14 @@ ignition/deployments/chain-31337
 hardhat.config.*
 .env
 .env.local
+.env.development
+.env.production
+
+# Private keys and sensitive files
+arweave-key.json
+*.key
+*.pem
+private-key.txt
+
+# Deployment logs
+deployment-*.log

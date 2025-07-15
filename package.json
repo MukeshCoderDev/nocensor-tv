@@ -15,7 +15,9 @@
     "deploy:contracts": "hardhat run scripts/deploy.js --network polygon",
     "deploy:frontend": "fleek deploy",
     "test:p2p": "jest --testPathPattern=p2p",
-    "preload": "node scripts/preload-content.js"
+    "preload": "node scripts/preload-content.js",
+    "test:e2e": "node scripts/e2e-test.js",
+    "deploy:content-storage": "hardhat run scripts/deploy-content-storage.js --network sepolia"
   },
   "dependencies": {
     "@bundlr-network/client": "^0.11.17",
@@ -24,19 +26,19 @@
     "@heroicons/react": "^2.2.0",
     "@openzeppelin/contracts": "^4.9.6",
     "@tailwindcss/postcss": "^4.1.11",
-    "@web3-react/core": "^6.1.9",
-    "@web3-react/injected-connector": "^6.0.7",
     "arweave": "^1.15.7",
     "autoprefixer": "^10.4.21",
     "buffer": "^6.0.3",
     "ethers": "^6.14.4",
+    "node-fetch": "^3.3.2",
     "postcss": "^8.5.6",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
     "react-router-dom": "^7.6.3",
     "readable-stream": "^4.5.2",
     "tailwindcss": "^4.1.11",
-    "web-streams-ponyfill": "^1.4.2"
+    "web-streams-ponyfill": "^1.4.2",
+    "yargs": "^18.0.0"
   },
   "devDependencies": {
     "@nomicfoundation/hardhat-ignition": "^0.15.12",

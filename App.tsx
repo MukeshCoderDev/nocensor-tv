@@ -21,7 +21,7 @@ import SettingsPage from './pages/settings/SettingsPage';
 import PrivacyPage from './pages/settings/PrivacyPage';
 import HelpPage from './pages/HelpPage';
 import PlaceholderPage from './pages/PlaceholderPage'; // For other routes
-import MetamaskPopup from './components/MetamaskPopup';
+// Removed MetamaskPopup - using real MetaMask popup instead
 import VideoPlayerModal from './components/VideoPlayerModal';
 import Notification from './components/Notification';
 import { User, Video, PageId } from './types';
@@ -34,7 +34,7 @@ const App: React.FC = () => {
   const [walletConnected, setWalletConnected] = useState<boolean>(false);
   const [currentUser, setCurrentUser] = useState<User | null>(null);
   
-  const [isMetamaskPopupOpen, setIsMetamaskPopupOpen] = useState<boolean>(false);
+  // Removed isMetamaskPopupOpen state - using real MetaMask popup instead
   const [isVideoPlayerOpen, setIsVideoPlayerOpen] = useState<boolean>(false);
   const [selectedVideo, setSelectedVideo] = useState<Video | null>(null);
   
@@ -54,18 +54,64 @@ const App: React.FC = () => {
     setNotification(prev => ({ ...prev, isVisible: false }));
   }, []);
 
-  const handleConnectWallet = () => {
+  const handleConnectWallet = async () => {
     if (!walletConnected) {
-      setIsMetamaskPopupOpen(true);
+      try {
+        // Check if MetaMask is installed
+        if (typeof window.ethereum === 'undefined') {
+          alert('MetaMask is not installed! Please install MetaMask to continue.');
+          window.open('https://metamask.io/download/', '_blank');
+          return;
+        }
+
+        // Request account access - This will show MetaMask popup
+        const accounts = await window.ethereum.request({
+          method: 'eth_requestAccounts',
+        });
+
+        if (accounts.length > 0) {
+          // Check if we're on the right network (Sepolia)
+          try {
+            await window.ethereum.request({
+              method: 'wallet_switchEthereumChain',
+              params: [{ chainId: '0xaa36a7' }], // Sepolia chainId in hex
+            });
+          } catch (switchError: any) {
+            // This error code indicates that the chain has not been added to MetaMask
+            if (switchError.code === 4902) {
+              await window.ethereum.request({
+                method: 'wallet_addEthereumChain',
+                params: [{
+                  chainId: '0xaa36a7',
+                  chainName: 'Sepolia Test Network',
+                  nativeCurrency: {
+                    name: 'ETH',
+                    symbol: 'ETH',
+                    decimals: 18,
+                  },
+                  rpcUrls: ['https://rpc.sepolia.org'],
+                  blockExplorerUrls: ['https://sepolia.etherscan.io'],
+                }],
+              });
+            }
+          }
+          
+          processWalletConnection(accounts[0]);
+        }
+      } catch (error) {
+        console.error('Failed to connect wallet:', error);
+        handleShowNotification('Failed to connect wallet. Please try again.', 'error');
+      }
     }
   };
 
-  const processWalletConnection = () => {
+  const processWalletConnection = (account: string) => {
     setWalletConnected(true);
-    const users = ['Alex', 'Taylor', 'Jordan', 'Casey', 'Morgan'];
-    const randomUser = users[Math.floor(Math.random() * users.length)];
-    setCurrentUser({ name: randomUser, avatarChar: randomUser.charAt(0).toUpperCase() });
-    setIsMetamaskPopupOpen(false);
+    const formatAddress = (addr: string) => `${addr.substring(0, 6)}...${addr.substring(addr.length - 4)}`;
+    setCurrentUser({ 
+      name: formatAddress(account), 
+      avatarChar: account.substring(2, 4).toUpperCase() 
+    });
     handleShowNotification('Wallet connected successfully!', 'success');
   };
 
@@ -151,11 +197,7 @@ const App: React.FC = () => {
         </main>
       </div>
 
-      <MetamaskPopup
-        isOpen={isMetamaskPopupOpen}
-        onClose={() => setIsMetamaskPopupOpen(false)}
-        onConnect={processWalletConnection}
-      />
+      {/* MetamaskPopup removed - using real MetaMask popup instead */}
       <VideoPlayerModal
         isOpen={isVideoPlayerOpen}
         onClose={() => setIsVideoPlayerOpen(false)}
