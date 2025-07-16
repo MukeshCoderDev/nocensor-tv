@@ -113,7 +113,11 @@
   - Write unit tests for enhanced upload functionality
   - _Requirements: 4.1, 4.2, 4.3, 4.4_
 
-- [ ] 16. Integrate Arweave uploader into application
+- [x] 16. Integrate Arweave uploader into application
+
+
+
+
   - Create route or modal integration for the Arweave uploader
   - Add navigation from main upload page to Arweave uploader
   - Implement proper component mounting and unmounting

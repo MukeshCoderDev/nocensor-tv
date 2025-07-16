@@ -1,0 +1,11 @@
+{
+  "kty": "RSA",
+  "n": "test-wallet-key-for-development-only-do-not-use-in-production-this-is-a-sample-key-for-testing-purposes-only-replace-with-real-wallet-key-when-ready-for-mainnet-deployment",
+  "e": "AQAB",
+  "d": "test-private-key-component-for-development-testing-only-never-share-real-private-keys-this-is-just-for-local-testing-and-development-purposes",
+  "p": "test-prime-factor-one-for-development-only",
+  "q": "test-prime-factor-two-for-development-only", 
+  "dp": "test-dp-component-for-development-only",
+  "dq": "test-dq-component-for-development-only",
+  "qi": "test-qi-component-for-development-only"
+}
