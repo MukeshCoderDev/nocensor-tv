@@ -1,0 +1,11 @@
+{
+  "kty": "RSA",
+  "n": "test-modulus-value-for-testing-purposes-only-not-a-real-wallet-key-do-not-use-in-production",
+  "e": "AQAB",
+  "d": "test-private-exponent-value-for-testing-purposes-only-not-a-real-wallet-key-do-not-use",
+  "p": "test-first-prime-factor-for-testing-purposes-only-not-a-real-wallet-key",
+  "q": "test-second-prime-factor-for-testing-purposes-only-not-a-real-wallet-key",
+  "dp": "test-first-factor-crt-exponent-for-testing-purposes-only-not-a-real-wallet",
+  "dq": "test-second-factor-crt-exponent-for-testing-purposes-only-not-a-real-wallet",
+  "qi": "test-first-crt-coefficient-for-testing-purposes-only-not-a-real-wallet-key"
+}

@@ -67,12 +67,60 @@ export const SIDEBAR_MENU: MenuSection[] = [
 ];
 
 export const PLATFORM_FEATURES: Feature[] = [
-  { icon: 'fas fa-film', title: 'Video Chapters', description: 'Create timestamps for easy navigation within videos', badge: 'Creator Feature' },
-  { icon: 'fas fa-gem', title: 'Channel Memberships', description: 'Exclusive content and perks for subscribers', badge: 'Monetization' },
-  { icon: 'fas fa-broadcast-tower', title: 'Live Streaming', description: 'Real-time interaction with your audience', badge: 'Live Feature' },
-  { icon: 'fas fa-mobile-alt', title: 'Shorts', description: 'Create and watch short vertical videos', badge: 'Viewer Experience' },
-  { icon: 'fas fa-chart-line', title: 'Analytics Dashboard', description: 'Detailed insights into your content performance', badge: 'Analytics' },
-  { icon: 'fas fa-closed-captioning', title: 'Automatic Captions', description: 'Auto-generated subtitles for your videos', badge: 'Accessibility' },
+  { 
+    icon: 'fas fa-shield-alt', 
+    title: 'Permanent Arweave Storage', 
+    description: 'Your content lives forever on the blockchain - truly censorship-resistant and creator-owned', 
+    badge: '🔥 Web3 Power',
+    gradient: 'from-purple-600 via-purple-700 to-pink-600',
+    stats: '∞ Forever',
+    highlight: 'REVOLUTIONARY'
+  },
+  { 
+    icon: 'fas fa-coins', 
+    title: 'Direct Creator Payments', 
+    description: 'Instant ETH payments with zero middlemen - creators keep 95% of earnings', 
+    badge: '💰 DeFi Native',
+    gradient: 'from-green-500 via-emerald-600 to-teal-600',
+    stats: '95% Revenue',
+    highlight: 'GAME CHANGER'
+  },
+  { 
+    icon: 'fas fa-gem', 
+    title: 'NFT-Gated Content', 
+    description: 'Exclusive access through NFT ownership - the future of premium memberships', 
+    badge: '💎 NFT Exclusive',
+    gradient: 'from-pink-500 via-rose-600 to-red-600',
+    stats: 'Web3 Access',
+    highlight: 'EXCLUSIVE'
+  },
+  { 
+    icon: 'fas fa-rocket', 
+    title: 'Decentralized Streaming', 
+    description: 'No servers, no downtime, no censorship - powered by blockchain technology', 
+    badge: '🚀 Unstoppable',
+    gradient: 'from-blue-500 via-indigo-600 to-purple-600',
+    stats: '100% Uptime',
+    highlight: 'UNSTOPPABLE'
+  },
+  { 
+    icon: 'fas fa-chart-trending-up', 
+    title: 'Real-Time Analytics', 
+    description: 'Advanced creator insights with blockchain-verified view counts and earnings', 
+    badge: '📊 Transparent',
+    gradient: 'from-orange-500 via-amber-600 to-yellow-600',
+    stats: 'Live Data',
+    highlight: 'TRANSPARENT'
+  },
+  { 
+    icon: 'fas fa-users-crown', 
+    title: 'Community Governance', 
+    description: 'Token holders vote on platform decisions - true decentralized governance', 
+    badge: '🏛️ DAO Powered',
+    gradient: 'from-cyan-500 via-blue-600 to-indigo-600',
+    stats: 'Your Voice',
+    highlight: 'DEMOCRATIC'
+  },
 ];
 
 export const RECOMMENDED_VIDEOS: Video[] = [

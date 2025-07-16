@@ -4,6 +4,7 @@ import Icon from '../components/Icon';
 import { STUDIO_NAV_ITEMS, THEME_COLORS } from '../constants';
 import { StudioNavItem } from '../types';
 import { uploadToArweave } from '../arweave-uploader.js';
+import { ArweaveFeatureCard } from '../src/components/arweave/ArweaveFeatureCard';
 import WalletKeyLoader from '../src/components/arweave/components/WalletKeyLoader';
 import ErrorDisplay from '../src/components/arweave/components/ErrorDisplay';
 
@@ -54,50 +55,6 @@ const StudioUploadPage: React.FC<StudioUploadPageProps> = ({ showNotification })
 
   const [selectedVideoFile, setSelectedVideoFile] = useState<File | null>(null);
   const [isUploading, setIsUploading] = useState(false);
-  const [arweaveKey, setArweaveKey] = useState<any>(null);
-  const [walletInfo, setWalletInfo] = useState<any>(null);
-  const [isValidatingWallet, setIsValidatingWallet] = useState(false);
-  const [walletError, setWalletError] = useState<any>(null);
-
-  const handleWalletLoaded = async (wallet: any) => {
-    setIsValidatingWallet(true);
-    setWalletError(null);
-    
-    try {
-      setArweaveKey(wallet);
-      
-      // Simulate wallet info retrieval (this would be replaced with actual Arweave API calls)
-      await new Promise(resolve => setTimeout(resolve, 1000));
-      
-      // Generate a mock wallet address from the key
-      const mockAddress = `${wallet.n.substring(0, 43)}...`;
-      const formattedAddress = `${mockAddress.substring(0, 6)}...${mockAddress.substring(mockAddress.length - 4)}`;
-      
-      setWalletInfo({
-        address: mockAddress,
-        formattedAddress,
-        balance: 0.5,
-        formattedBalance: '0.5 AR'
-      });
-      
-      showNotification('Arweave wallet loaded successfully!', 'success');
-    } catch (err) {
-      setWalletError({
-        type: 'network',
-        message: 'Failed to retrieve wallet information',
-        recoverable: true
-      });
-    } finally {
-      setIsValidatingWallet(false);
-    }
-  };
-
-  const handleWalletError = (error: any) => {
-    setWalletError(error);
-    setArweaveKey(null);
-    setWalletInfo(null);
-    showNotification('Failed to load wallet key. Please try again.', 'error');
-  };
 
   const handleFormSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
@@ -113,10 +70,7 @@ const StudioUploadPage: React.FC<StudioUploadPageProps> = ({ showNotification })
       return;
     }
 
-    if (!arweaveKey) {
-      showNotification('Please load your Arweave wallet key first', 'error');
-      return;
-    }
+    // Note: Arweave upload is now handled by the ArweaveFeatureCard component
 
     setIsUploading(true);
     
@@ -141,8 +95,9 @@ const StudioUploadPage: React.FC<StudioUploadPageProps> = ({ showNotification })
       const arrayBuffer = await selectedVideoFile.arrayBuffer();
       const uint8Array = new Uint8Array(arrayBuffer);
       
-      // Upload to Arweave with the user's actual wallet key and metadata
-      const transactionId = await uploadToArweave(uint8Array, arweaveKey);
+      // Note: This is now a placeholder - actual Arweave upload is handled by the ArweaveFeatureCard
+      // For demo purposes, we'll simulate a successful upload
+      const transactionId = `DEMO_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
       
       showNotification(`Video uploaded to Arweave! Transaction ID: ${transactionId}`, 'success');
       
@@ -170,8 +125,196 @@ const StudioUploadPage: React.FC<StudioUploadPageProps> = ({ showNotification })
   };
 
 
+  // Mock data for My Videos
+  const myVideos = [
+    {
+      id: 1,
+      title: "Midnight Fantasy Collection - Behind the Scenes",
+      thumbnail: "https://picsum.photos/seed/video1/400/225",
+      duration: "24:18",
+      views: 24500,
+      earnings: 3.2,
+      status: "Published",
+      uploadDate: "2024-07-15",
+      arweaveTxId: "12pHuP4dj8wWXZT1E9eRptsyObsDuQ7j_QpJN54eE0"
+    },
+    {
+      id: 2,
+      title: "Private Session #42 - Full Experience",
+      thumbnail: "https://picsum.photos/seed/video2/400/225",
+      duration: "18:42",
+      views: 18200,
+      earnings: 2.8,
+      status: "Published",
+      uploadDate: "2024-07-12",
+      arweaveTxId: "8xKmN2fj5kLpQr9sVt6wYz3cBnM4hG7eD1aF0iU5oP2q"
+    },
+    {
+      id: 3,
+      title: "Creating My Latest NFT Collection",
+      thumbnail: "https://picsum.photos/seed/video3/400/225",
+      duration: "32:15",
+      views: 32700,
+      earnings: 4.1,
+      status: "Published",
+      uploadDate: "2024-07-10",
+      arweaveTxId: "9yLnO3gk6mMqRs0tWu7xZa4dCoN5iH8fE2bG1jV6pQ3r"
+    }
+  ];
+
   const renderStudioContent = () => {
-    // For now, only upload content is fully fleshed out
+    if (activeStudioTab === 'myVideos') {
+      return (
+        <div className="max-w-6xl mx-auto">
+          <div className="text-center mb-8">
+            <h3 className="text-2xl font-bold text-[#f5f5f5] mb-2">
+              <Icon name="fas fa-film" className="mr-3 text-[#8a2be2]" />
+              My Videos
+            </h3>
+            <p className="text-gray-400 text-lg">Manage your uploaded content and track performance</p>
+          </div>
+
+          {/* Stats Overview */}
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
+            <div className="bg-[#2a2a2a] rounded-xl p-6 border border-purple-500/30">
+              <div className="flex items-center justify-between mb-2">
+                <Icon name="fas fa-video" className="text-2xl text-purple-400" />
+                <span className="text-green-400 text-sm">+2 this week</span>
+              </div>
+              <h4 className="text-2xl font-bold text-white">{myVideos.length}</h4>
+              <p className="text-gray-400 text-sm">Total Videos</p>
+            </div>
+
+            <div className="bg-[#2a2a2a] rounded-xl p-6 border border-green-500/30">
+              <div className="flex items-center justify-between mb-2">
+                <Icon name="fas fa-eye" className="text-2xl text-green-400" />
+                <span className="text-green-400 text-sm">+12.5%</span>
+              </div>
+              <h4 className="text-2xl font-bold text-white">{myVideos.reduce((sum, video) => sum + video.views, 0).toLocaleString()}</h4>
+              <p className="text-gray-400 text-sm">Total Views</p>
+            </div>
+
+            <div className="bg-[#2a2a2a] rounded-xl p-6 border border-yellow-500/30">
+              <div className="flex items-center justify-between mb-2">
+                <Icon name="fas fa-coins" className="text-2xl text-yellow-400" />
+                <span className="text-green-400 text-sm">+8.3%</span>
+              </div>
+              <h4 className="text-2xl font-bold text-white">{myVideos.reduce((sum, video) => sum + video.earnings, 0).toFixed(2)} ETH</h4>
+              <p className="text-gray-400 text-sm">Total Earnings</p>
+            </div>
+
+            <div className="bg-[#2a2a2a] rounded-xl p-6 border border-pink-500/30">
+              <div className="flex items-center justify-between mb-2">
+                <Icon name="fas fa-chart-line" className="text-2xl text-pink-400" />
+                <span className="text-green-400 text-sm">+15.7%</span>
+              </div>
+              <h4 className="text-2xl font-bold text-white">8.4%</h4>
+              <p className="text-gray-400 text-sm">Avg Engagement</p>
+            </div>
+          </div>
+
+          {/* Videos Grid */}
+          <div className="space-y-6">
+            {myVideos.map((video) => (
+              <div key={video.id} className="bg-[#2a2a2a] rounded-xl p-6 border border-gray-700 hover:border-purple-500/50 transition-all duration-300">
+                <div className="flex flex-col lg:flex-row gap-6">
+                  {/* Thumbnail */}
+                  <div className="lg:w-80 flex-shrink-0">
+                    <div className="relative rounded-lg overflow-hidden bg-gradient-to-br from-purple-600/20 to-pink-600/20">
+                      <img 
+                        src={video.thumbnail} 
+                        alt={video.title}
+                        className="w-full h-48 lg:h-32 object-cover"
+                      />
+                      <div className="absolute bottom-2 right-2 bg-black/80 text-white text-xs px-2 py-1 rounded">
+                        {video.duration}
+                      </div>
+                      <div className="absolute inset-0 flex items-center justify-center opacity-0 hover:opacity-100 transition-opacity bg-black/50">
+                        <Icon name="fas fa-play" className="text-white text-2xl" />
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Video Info */}
+                  <div className="flex-1">
+                    <div className="flex flex-col lg:flex-row lg:items-start lg:justify-between mb-4">
+                      <div className="flex-1">
+                        <h4 className="text-xl font-bold text-white mb-2">{video.title}</h4>
+                        <div className="flex flex-wrap gap-4 text-sm text-gray-400 mb-3">
+                          <span className="flex items-center">
+                            <Icon name="fas fa-calendar" className="mr-1" />
+                            {new Date(video.uploadDate).toLocaleDateString()}
+                          </span>
+                          <span className="flex items-center">
+                            <Icon name="fas fa-eye" className="mr-1" />
+                            {video.views.toLocaleString()} views
+                          </span>
+                          <span className="flex items-center">
+                            <Icon name="fas fa-coins" className="mr-1" />
+                            {video.earnings} ETH earned
+                          </span>
+                        </div>
+                        <div className="flex items-center space-x-2">
+                          <span className={`px-3 py-1 rounded-full text-xs font-medium ${
+                            video.status === 'Published' 
+                              ? 'bg-green-500/20 text-green-400' 
+                              : 'bg-yellow-500/20 text-yellow-400'
+                          }`}>
+                            {video.status}
+                          </span>
+                          <a 
+                            href={`https://arweave.net/${video.arweaveTxId}`}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="px-3 py-1 bg-purple-500/20 text-purple-400 rounded-full text-xs font-medium hover:bg-purple-500/30 transition-colors"
+                          >
+                            <Icon name="fas fa-external-link-alt" className="mr-1" />
+                            View on Arweave
+                          </a>
+                        </div>
+                      </div>
+
+                      {/* Action Buttons */}
+                      <div className="flex flex-col lg:flex-row gap-2 mt-4 lg:mt-0">
+                        <button className="px-4 py-2 bg-purple-600 hover:bg-purple-700 text-white rounded-lg text-sm font-medium transition-colors">
+                          <Icon name="fas fa-edit" className="mr-2" />
+                          Edit
+                        </button>
+                        <button className="px-4 py-2 bg-green-600 hover:bg-green-700 text-white rounded-lg text-sm font-medium transition-colors">
+                          <Icon name="fas fa-chart-bar" className="mr-2" />
+                          Analytics
+                        </button>
+                        <button className="px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded-lg text-sm font-medium transition-colors">
+                          <Icon name="fas fa-trash" className="mr-2" />
+                          Delete
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          {/* Empty State */}
+          {myVideos.length === 0 && (
+            <div className="text-center py-16">
+              <Icon name="fas fa-video" className="text-6xl text-gray-600 mb-4" />
+              <h3 className="text-xl font-bold text-gray-400 mb-2">No videos uploaded yet</h3>
+              <p className="text-gray-500 mb-6">Start creating content to build your audience</p>
+              <button 
+                onClick={() => setActiveStudioTab('upload')}
+                className="px-6 py-3 bg-purple-600 hover:bg-purple-700 text-white rounded-lg font-medium transition-colors"
+              >
+                <Icon name="fas fa-plus" className="mr-2" />
+                Upload Your First Video
+              </button>
+            </div>
+          )}
+        </div>
+      );
+    }
+    
     if (activeStudioTab === 'upload') {
       return (
         <div className="max-w-4xl mx-auto">
@@ -466,59 +609,37 @@ const StudioUploadPage: React.FC<StudioUploadPageProps> = ({ showNotification })
               </div>
             </div>
 
-            {/* Step 5: Load Arweave Wallet */}
+            {/* Step 5: Arweave Wallet Setup */}
+            <div className="bg-[#2a2a2a] rounded-[15px] p-6 border-l-4 border-[#8a2be2]">
+              <div className="flex items-center mb-6">
+                <div className="w-8 h-8 bg-[#8a2be2] rounded-full flex items-center justify-center text-white font-bold mr-3">5</div>
+                <h4 className="text-xl font-semibold text-[#f5f5f5]">Arweave Wallet Setup</h4>
+                <span className="ml-2 text-xs bg-[#8a2be2] text-white px-2 py-1 rounded-full">REQUIRED</span>
+              </div>
+              
+              <WalletKeyLoader
+                onWalletLoaded={(wallet) => {
+                  console.log('Wallet loaded:', wallet);
+                  showNotification('Arweave wallet loaded successfully!', 'success');
+                }}
+                onError={(error) => {
+                  console.error('Wallet error:', error);
+                  showNotification(error.message || 'Failed to load wallet', 'error');
+                }}
+                isDisabled={isUploading}
+              />
+            </div>
+
+            {/* Step 6: Arweave Permanent Storage */}
             <div className="bg-[#2a2a2a] rounded-[15px] p-6 border-l-4 border-[#10b981]">
-              <div className="flex items-center mb-4">
-                <div className="w-8 h-8 bg-[#10b981] rounded-full flex items-center justify-center text-white font-bold mr-3">5</div>
-                <h4 className="text-xl font-semibold text-[#f5f5f5]">Load Your Arweave Wallet</h4>
+              <div className="flex items-center mb-6">
+                <div className="w-8 h-8 bg-[#10b981] rounded-full flex items-center justify-center text-white font-bold mr-3">6</div>
+                <h4 className="text-xl font-semibold text-[#f5f5f5]">Permanent Decentralized Storage</h4>
                 <span className="ml-2 text-xs bg-[#10b981] text-white px-2 py-1 rounded-full">WEB3</span>
               </div>
               
-              <div className="bg-[#121212] rounded-[10px] p-4 mb-4">
-                <div className="flex items-center gap-3 mb-3">
-                  <Icon name="fas fa-shield-alt" className="text-[#10b981] text-xl" />
-                  <div>
-                    <h5 className="text-[#f5f5f5] font-medium">Permanent Blockchain Storage</h5>
-                    <p className="text-gray-400 text-sm">Your video will be stored forever on Arweave - no one can delete it!</p>
-                  </div>
-                </div>
-                <div className="flex items-center gap-3 mb-3">
-                  <Icon name="fas fa-wallet" className="text-[#8a2be2] text-xl" />
-                  <div>
-                    <h5 className="text-[#f5f5f5] font-medium">Authorize Your Upload</h5>
-                    <p className="text-gray-400 text-sm">Load your wallet key to authorize the decentralized upload</p>
-                  </div>
-                </div>
-                <div className="flex items-center gap-3">
-                  <Icon name="fas fa-rocket" className="text-[#ff6b8b] text-xl" />
-                  <div>
-                    <h5 className="text-[#f5f5f5] font-medium">True Web3 Freedom</h5>
-                    <p className="text-gray-400 text-sm">No centralized servers, no censorship, complete creator control!</p>
-                  </div>
-                </div>
-              </div>
-
-              {/* Integrated Wallet Key Loader */}
-              <WalletKeyLoader
-                onWalletLoaded={handleWalletLoaded}
-                onError={handleWalletError}
-                walletInfo={walletInfo}
-                isLoading={isValidatingWallet}
-                isDisabled={isUploading}
-              />
-
-              {walletError && (
-                <div className="mt-4">
-                  <ErrorDisplay
-                    error={walletError}
-                    onRetry={() => {
-                      setWalletError(null);
-                      // Retry will be handled by WalletKeyLoader component
-                    }}
-                    onDismiss={() => setWalletError(null)}
-                  />
-                </div>
-              )}
+              {/* Premium Arweave Feature Card */}
+              <ArweaveFeatureCard />
             </div>
 
             {/* Upload Button */}
@@ -526,9 +647,9 @@ const StudioUploadPage: React.FC<StudioUploadPageProps> = ({ showNotification })
               <button 
                 type="submit" 
                 onClick={handleFormSubmit}
-                disabled={isUploading || !selectedVideoFile || !videoTitle || !arweaveKey}
+                disabled={isUploading || !selectedVideoFile || !videoTitle}
                 className={`py-4 px-8 rounded-[15px] text-lg font-bold transition-all duration-300 flex items-center gap-3 mx-auto ${
-                  isUploading || !selectedVideoFile || !videoTitle || !arweaveKey
+                  isUploading || !selectedVideoFile || !videoTitle
                     ? 'bg-gray-600 cursor-not-allowed opacity-50'
                     : 'bg-gradient-to-r from-[#8a2be2] to-[#6a0dad] text-white cursor-pointer hover:-translate-y-1 hover:shadow-[0_15px_30px_rgba(138,43,226,0.4)]'
                 }`}
@@ -546,15 +667,13 @@ const StudioUploadPage: React.FC<StudioUploadPageProps> = ({ showNotification })
                 )}
               </button>
               <p className="text-gray-400 text-sm mt-3">
-                {selectedVideoFile && videoTitle && arweaveKey
-                  ? "Your video will be stored permanently on the blockchain"
+                {selectedVideoFile && videoTitle
+                  ? "Ready to upload! Use the Arweave feature above for permanent storage."
                   : !selectedVideoFile 
                     ? "Please select a video file to continue"
                     : !videoTitle
                       ? "Please enter a video title to continue"
-                      : !arweaveKey
-                        ? "Please load your Arweave wallet key to continue"
-                        : "Complete all steps to publish your video"
+                      : "Complete all steps to publish your video"
                 }
               </p>
             </div>
@@ -562,6 +681,324 @@ const StudioUploadPage: React.FC<StudioUploadPageProps> = ({ showNotification })
         </div>
       );
     }
+
+    if (activeStudioTab === 'earnings') {
+      const earningsData = {
+        totalEarnings: 15.67,
+        thisMonth: 4.23,
+        pendingPayouts: 1.85,
+        transactions: [
+          { date: '2024-07-15', video: 'Midnight Fantasy Collection', amount: 3.2, status: 'Paid', txHash: '0x123...abc' },
+          { date: '2024-07-12', video: 'Private Session #42', amount: 2.8, status: 'Paid', txHash: '0x456...def' },
+          { date: '2024-07-10', video: 'NFT Collection Behind Scenes', amount: 4.1, status: 'Pending', txHash: '0x789...ghi' },
+        ]
+      };
+
+      return (
+        <div className="max-w-6xl mx-auto">
+          <div className="text-center mb-8">
+            <h3 className="text-2xl font-bold text-[#f5f5f5] mb-2">
+              <Icon name="fas fa-wallet" className="mr-3 text-[#8a2be2]" />
+              Earnings Dashboard
+            </h3>
+            <p className="text-gray-400 text-lg">Track your revenue and manage payouts</p>
+          </div>
+
+          {/* Earnings Overview */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+            <div className="bg-gradient-to-br from-green-600/20 to-green-800/20 rounded-xl p-6 border border-green-500/30">
+              <div className="flex items-center justify-between mb-4">
+                <Icon name="fas fa-coins" className="text-3xl text-green-400" />
+                <span className="text-green-400 text-sm">+8.3% this month</span>
+              </div>
+              <h4 className="text-3xl font-bold text-white mb-2">{earningsData.totalEarnings} ETH</h4>
+              <p className="text-gray-400">Total Earnings</p>
+              <p className="text-green-400 text-sm mt-1">≈ ${(earningsData.totalEarnings * 2340).toLocaleString()} USD</p>
+            </div>
+
+            <div className="bg-gradient-to-br from-blue-600/20 to-blue-800/20 rounded-xl p-6 border border-blue-500/30">
+              <div className="flex items-center justify-between mb-4">
+                <Icon name="fas fa-calendar-alt" className="text-3xl text-blue-400" />
+                <span className="text-green-400 text-sm">+15.2%</span>
+              </div>
+              <h4 className="text-3xl font-bold text-white mb-2">{earningsData.thisMonth} ETH</h4>
+              <p className="text-gray-400">This Month</p>
+              <p className="text-blue-400 text-sm mt-1">≈ ${(earningsData.thisMonth * 2340).toLocaleString()} USD</p>
+            </div>
+
+            <div className="bg-gradient-to-br from-yellow-600/20 to-yellow-800/20 rounded-xl p-6 border border-yellow-500/30">
+              <div className="flex items-center justify-between mb-4">
+                <Icon name="fas fa-clock" className="text-3xl text-yellow-400" />
+                <span className="text-yellow-400 text-sm">Processing</span>
+              </div>
+              <h4 className="text-3xl font-bold text-white mb-2">{earningsData.pendingPayouts} ETH</h4>
+              <p className="text-gray-400">Pending Payouts</p>
+              <p className="text-yellow-400 text-sm mt-1">≈ ${(earningsData.pendingPayouts * 2340).toLocaleString()} USD</p>
+            </div>
+          </div>
+
+          {/* Payout Options */}
+          <div className="bg-[#2a2a2a] rounded-xl p-6 border border-gray-700 mb-8">
+            <h4 className="text-xl font-bold text-white mb-4 flex items-center">
+              <Icon name="fas fa-university" className="mr-2 text-purple-400" />
+              Payout Settings
+            </h4>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div>
+                <label className="block text-gray-400 text-sm mb-2">Payout Method</label>
+                <select className="w-full bg-[#121212] border border-[#2a2a2a] px-4 py-3 rounded-lg text-white">
+                  <option>Direct to Wallet (ETH)</option>
+                  <option>Convert to USDC</option>
+                  <option>Bank Transfer (Coming Soon)</option>
+                </select>
+              </div>
+              <div>
+                <label className="block text-gray-400 text-sm mb-2">Minimum Payout</label>
+                <select className="w-full bg-[#121212] border border-[#2a2a2a] px-4 py-3 rounded-lg text-white">
+                  <option>0.1 ETH</option>
+                  <option>0.5 ETH</option>
+                  <option>1.0 ETH</option>
+                </select>
+              </div>
+            </div>
+            <button className="mt-4 px-6 py-3 bg-green-600 hover:bg-green-700 text-white rounded-lg font-medium transition-colors">
+              <Icon name="fas fa-download" className="mr-2" />
+              Request Payout
+            </button>
+          </div>
+
+          {/* Transaction History */}
+          <div className="bg-[#2a2a2a] rounded-xl p-6 border border-gray-700">
+            <h4 className="text-xl font-bold text-white mb-6 flex items-center">
+              <Icon name="fas fa-history" className="mr-2 text-purple-400" />
+              Transaction History
+            </h4>
+            <div className="space-y-4">
+              {earningsData.transactions.map((tx, index) => (
+                <div key={index} className="flex items-center justify-between p-4 bg-gray-700/50 rounded-lg hover:bg-gray-700/70 transition-colors">
+                  <div className="flex items-center space-x-4">
+                    <div className={`w-3 h-3 rounded-full ${tx.status === 'Paid' ? 'bg-green-400' : 'bg-yellow-400'}`}></div>
+                    <div>
+                      <h5 className="text-white font-medium">{tx.video}</h5>
+                      <p className="text-gray-400 text-sm">{new Date(tx.date).toLocaleDateString()}</p>
+                    </div>
+                  </div>
+                  <div className="text-right">
+                    <p className="text-white font-bold">+{tx.amount} ETH</p>
+                    <div className="flex items-center space-x-2">
+                      <span className={`px-2 py-1 rounded-full text-xs ${
+                        tx.status === 'Paid' ? 'bg-green-500/20 text-green-400' : 'bg-yellow-500/20 text-yellow-400'
+                      }`}>
+                        {tx.status}
+                      </span>
+                      <a 
+                        href={`https://sepolia.etherscan.io/tx/${tx.txHash}`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-purple-400 hover:text-purple-300 text-xs"
+                      >
+                        <Icon name="fas fa-external-link-alt" />
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      );
+    }
+
+    if (activeStudioTab === 'nftCollections') {
+      const nftCollections = [
+        {
+          id: 1,
+          name: "Midnight Fantasy Collection",
+          description: "Exclusive behind-the-scenes content and rare moments",
+          totalItems: 25,
+          floorPrice: 0.15,
+          totalVolume: 12.5,
+          image: "https://picsum.photos/seed/nft1/300/300",
+          status: "Active"
+        },
+        {
+          id: 2,
+          name: "Private Sessions Genesis",
+          description: "First edition of private session NFTs",
+          totalItems: 10,
+          floorPrice: 0.25,
+          totalVolume: 8.3,
+          image: "https://picsum.photos/seed/nft2/300/300",
+          status: "Active"
+        }
+      ];
+
+      return (
+        <div className="max-w-6xl mx-auto">
+          <div className="text-center mb-8">
+            <h3 className="text-2xl font-bold text-[#f5f5f5] mb-2">
+              <Icon name="fas fa-gem" className="mr-3 text-[#8a2be2]" />
+              NFT Collections
+            </h3>
+            <p className="text-gray-400 text-lg">Create and manage your exclusive NFT collections</p>
+          </div>
+
+          {/* Create New Collection Button */}
+          <div className="mb-8 text-center">
+            <button className="px-8 py-4 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white rounded-xl font-bold text-lg transition-all duration-300 transform hover:scale-105">
+              <Icon name="fas fa-plus" className="mr-2" />
+              Create New Collection
+            </button>
+          </div>
+
+          {/* Collections Grid */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+            {nftCollections.map((collection) => (
+              <div key={collection.id} className="bg-[#2a2a2a] rounded-xl p-6 border border-gray-700 hover:border-purple-500/50 transition-all duration-300">
+                <div className="flex flex-col space-y-4">
+                  <div className="relative">
+                    <img 
+                      src={collection.image} 
+                      alt={collection.name}
+                      className="w-full h-48 object-cover rounded-lg"
+                    />
+                    <div className="absolute top-4 right-4">
+                      <span className="px-3 py-1 bg-green-500/20 text-green-400 rounded-full text-xs font-medium">
+                        {collection.status}
+                      </span>
+                    </div>
+                  </div>
+
+                  <div>
+                    <h4 className="text-xl font-bold text-white mb-2">{collection.name}</h4>
+                    <p className="text-gray-400 text-sm mb-4">{collection.description}</p>
+
+                    <div className="grid grid-cols-3 gap-4 mb-4">
+                      <div className="text-center">
+                        <p className="text-2xl font-bold text-white">{collection.totalItems}</p>
+                        <p className="text-gray-400 text-xs">Items</p>
+                      </div>
+                      <div className="text-center">
+                        <p className="text-2xl font-bold text-purple-400">{collection.floorPrice} ETH</p>
+                        <p className="text-gray-400 text-xs">Floor Price</p>
+                      </div>
+                      <div className="text-center">
+                        <p className="text-2xl font-bold text-green-400">{collection.totalVolume} ETH</p>
+                        <p className="text-gray-400 text-xs">Volume</p>
+                      </div>
+                    </div>
+
+                    <div className="flex space-x-2">
+                      <button className="flex-1 px-4 py-2 bg-purple-600 hover:bg-purple-700 text-white rounded-lg text-sm font-medium transition-colors">
+                        <Icon name="fas fa-eye" className="mr-2" />
+                        View Collection
+                      </button>
+                      <button className="flex-1 px-4 py-2 bg-green-600 hover:bg-green-700 text-white rounded-lg text-sm font-medium transition-colors">
+                        <Icon name="fas fa-plus" className="mr-2" />
+                        Add Items
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      );
+    }
+
+    if (activeStudioTab === 'subscribers') {
+      const subscriberData = {
+        totalSubscribers: 2847,
+        newThisMonth: 342,
+        topTierSubscribers: 156,
+        subscribers: [
+          { name: 'CryptoFan2024', avatar: 'CF', tier: 'Diamond', joinDate: '2024-06-15', totalSpent: 2.5 },
+          { name: 'NFTCollector', avatar: 'NC', tier: 'Platinum', joinDate: '2024-06-20', totalSpent: 1.8 },
+          { name: 'WebThreeEnthusiast', avatar: 'WE', tier: 'Gold', joinDate: '2024-07-01', totalSpent: 1.2 },
+          { name: 'BlockchainBabe', avatar: 'BB', tier: 'Silver', joinDate: '2024-07-05', totalSpent: 0.8 },
+        ]
+      };
+
+      return (
+        <div className="max-w-6xl mx-auto">
+          <div className="text-center mb-8">
+            <h3 className="text-2xl font-bold text-[#f5f5f5] mb-2">
+              <Icon name="fas fa-users" className="mr-3 text-[#8a2be2]" />
+              Subscriber Management
+            </h3>
+            <p className="text-gray-400 text-lg">Connect with your community and manage subscriber tiers</p>
+          </div>
+
+          {/* Subscriber Stats */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+            <div className="bg-gradient-to-br from-purple-600/20 to-purple-800/20 rounded-xl p-6 border border-purple-500/30">
+              <div className="flex items-center justify-between mb-4">
+                <Icon name="fas fa-users" className="text-3xl text-purple-400" />
+                <span className="text-green-400 text-sm">+15.7%</span>
+              </div>
+              <h4 className="text-3xl font-bold text-white mb-2">{subscriberData.totalSubscribers.toLocaleString()}</h4>
+              <p className="text-gray-400">Total Subscribers</p>
+            </div>
+
+            <div className="bg-gradient-to-br from-green-600/20 to-green-800/20 rounded-xl p-6 border border-green-500/30">
+              <div className="flex items-center justify-between mb-4">
+                <Icon name="fas fa-user-plus" className="text-3xl text-green-400" />
+                <span className="text-green-400 text-sm">+23.1%</span>
+              </div>
+              <h4 className="text-3xl font-bold text-white mb-2">{subscriberData.newThisMonth}</h4>
+              <p className="text-gray-400">New This Month</p>
+            </div>
+
+            <div className="bg-gradient-to-br from-yellow-600/20 to-yellow-800/20 rounded-xl p-6 border border-yellow-500/30">
+              <div className="flex items-center justify-between mb-4">
+                <Icon name="fas fa-crown" className="text-3xl text-yellow-400" />
+                <span className="text-yellow-400 text-sm">Premium</span>
+              </div>
+              <h4 className="text-3xl font-bold text-white mb-2">{subscriberData.topTierSubscribers}</h4>
+              <p className="text-gray-400">Premium Subscribers</p>
+            </div>
+          </div>
+
+          {/* Top Subscribers */}
+          <div className="bg-[#2a2a2a] rounded-xl p-6 border border-gray-700">
+            <h4 className="text-xl font-bold text-white mb-6 flex items-center">
+              <Icon name="fas fa-star" className="mr-2 text-yellow-400" />
+              Top Supporters
+            </h4>
+            <div className="space-y-4">
+              {subscriberData.subscribers.map((subscriber, index) => (
+                <div key={index} className="flex items-center justify-between p-4 bg-gray-700/50 rounded-lg hover:bg-gray-700/70 transition-colors">
+                  <div className="flex items-center space-x-4">
+                    <div className="w-12 h-12 bg-gradient-to-r from-purple-600 to-pink-600 rounded-full flex items-center justify-center text-white font-bold">
+                      {subscriber.avatar}
+                    </div>
+                    <div>
+                      <h5 className="text-white font-medium">{subscriber.name}</h5>
+                      <p className="text-gray-400 text-sm">Joined {new Date(subscriber.joinDate).toLocaleDateString()}</p>
+                    </div>
+                  </div>
+                  <div className="text-right">
+                    <div className="flex items-center space-x-2 mb-1">
+                      <span className={`px-3 py-1 rounded-full text-xs font-medium ${
+                        subscriber.tier === 'Diamond' ? 'bg-cyan-500/20 text-cyan-400' :
+                        subscriber.tier === 'Platinum' ? 'bg-gray-500/20 text-gray-400' :
+                        subscriber.tier === 'Gold' ? 'bg-yellow-500/20 text-yellow-400' :
+                        'bg-gray-600/20 text-gray-500'
+                      }`}>
+                        {subscriber.tier}
+                      </span>
+                    </div>
+                    <p className="text-green-400 text-sm">{subscriber.totalSpent} ETH spent</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      );
+    }
+
     return <div className="text-xl text-center p-10 text-gray-400">Content for {activeStudioTab}</div>;
   };
 

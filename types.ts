@@ -56,6 +56,9 @@ export interface Feature {
   title: string;
   description: string;
   badge: string;
+  gradient?: string;
+  stats?: string;
+  highlight?: string;
 }
 
 export interface MenuItem {

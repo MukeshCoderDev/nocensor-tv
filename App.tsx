@@ -57,50 +57,92 @@ const App: React.FC = () => {
   const handleConnectWallet = async () => {
     if (!walletConnected) {
       try {
+        console.log('🔗 Attempting wallet connection...');
+        
         // Check if MetaMask is installed
         if (typeof window.ethereum === 'undefined') {
-          alert('MetaMask is not installed! Please install MetaMask to continue.');
+          console.error('❌ MetaMask not detected');
+          handleShowNotification('MetaMask is not installed! Please install MetaMask to continue.', 'error');
           window.open('https://metamask.io/download/', '_blank');
           return;
         }
 
+        console.log('✅ MetaMask detected, requesting accounts...');
+        
         // Request account access - This will show MetaMask popup
         const accounts = await window.ethereum.request({
           method: 'eth_requestAccounts',
         });
 
+        console.log('📝 Accounts received:', accounts.length);
+
         if (accounts.length > 0) {
+          console.log('🌐 Checking network...');
+          
+          // Get current chain ID
+          const currentChainId = await window.ethereum.request({
+            method: 'eth_chainId',
+          });
+          
+          console.log('Current chain ID:', currentChainId);
+          console.log('Target chain ID (Sepolia):', '0xaa36a7');
+
           // Check if we're on the right network (Sepolia)
-          try {
-            await window.ethereum.request({
-              method: 'wallet_switchEthereumChain',
-              params: [{ chainId: '0xaa36a7' }], // Sepolia chainId in hex
-            });
-          } catch (switchError: any) {
-            // This error code indicates that the chain has not been added to MetaMask
-            if (switchError.code === 4902) {
+          if (currentChainId !== '0xaa36a7') {
+            console.log('🔄 Switching to Sepolia network...');
+            try {
               await window.ethereum.request({
-                method: 'wallet_addEthereumChain',
-                params: [{
-                  chainId: '0xaa36a7',
-                  chainName: 'Sepolia Test Network',
-                  nativeCurrency: {
-                    name: 'ETH',
-                    symbol: 'ETH',
-                    decimals: 18,
-                  },
-                  rpcUrls: ['https://rpc.sepolia.org'],
-                  blockExplorerUrls: ['https://sepolia.etherscan.io'],
-                }],
+                method: 'wallet_switchEthereumChain',
+                params: [{ chainId: '0xaa36a7' }], // Sepolia chainId in hex
               });
+              console.log('✅ Successfully switched to Sepolia');
+            } catch (switchError: any) {
+              console.log('Switch error code:', switchError.code);
+              // This error code indicates that the chain has not been added to MetaMask
+              if (switchError.code === 4902) {
+                console.log('➕ Adding Sepolia network to MetaMask...');
+                await window.ethereum.request({
+                  method: 'wallet_addEthereumChain',
+                  params: [{
+                    chainId: '0xaa36a7',
+                    chainName: 'Sepolia Test Network',
+                    nativeCurrency: {
+                      name: 'ETH',
+                      symbol: 'ETH',
+                      decimals: 18,
+                    },
+                    rpcUrls: ['https://sepolia.infura.io/v3/', 'https://rpc.sepolia.org'],
+                    blockExplorerUrls: ['https://sepolia.etherscan.io'],
+                  }],
+                });
+                console.log('✅ Sepolia network added successfully');
+              } else {
+                throw switchError;
+              }
             }
           }
           
+          console.log('🎉 Processing wallet connection...');
           processWalletConnection(accounts[0]);
+        } else {
+          throw new Error('No accounts returned from MetaMask');
         }
-      } catch (error) {
-        console.error('Failed to connect wallet:', error);
-        handleShowNotification('Failed to connect wallet. Please try again.', 'error');
+      } catch (error: any) {
+        console.error('❌ Wallet connection failed:', error);
+        
+        let errorMessage = 'Failed to connect wallet. ';
+        
+        if (error.code === 4001) {
+          errorMessage += 'Connection rejected by user.';
+        } else if (error.code === -32002) {
+          errorMessage += 'Connection request already pending. Please check MetaMask.';
+        } else if (error.message?.includes('User rejected')) {
+          errorMessage += 'Connection rejected by user.';
+        } else {
+          errorMessage += 'Please make sure MetaMask is unlocked and try again.';
+        }
+        
+        handleShowNotification(errorMessage, 'error');
       }
     }
   };

@@ -9,11 +9,15 @@ async function testE2E() {
 
   try {
     // Your deployed ContentStorage address
-    const contractAddress = "0x9Fc0552df6fA4ca99b2701cfD8bBDbD3F98723E8";
-    const rpcUrl = "https://sepolia.infura.io/v3/7cddccd83fda404b941fe80581c76c0a";
+    const contractAddress = process.env.CONTRACT_ADDRESS || "0x9Fc0552df6fA4ca99b2701cfD8bBDbD3F98723E8";
+    const rpcUrl = process.env.SEPOLIA_RPC_URL || "https://rpc.sepolia.org";
     
-    // Note: You'll need to replace this with your full 64-character private key
-    const privateKey = "0xf26c44c5a7155deee71f068a2a8fe5c63818c99a8d06fbb05094d93a0633fe0a";
+    // SAFE: Using environment variable for private key
+    const privateKey = process.env.PRIVATE_KEY;
+    
+    if (!privateKey) {
+      throw new Error("Please set PRIVATE_KEY environment variable");
+    }
     
     console.log("📡 Connecting to Sepolia...");
     const provider = new ethers.JsonRpcProvider(rpcUrl);

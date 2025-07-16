@@ -17,7 +17,10 @@
     "test:p2p": "jest --testPathPattern=p2p",
     "preload": "node scripts/preload-content.js",
     "test:e2e": "node scripts/e2e-test.js",
-    "deploy:content-storage": "hardhat run scripts/deploy-content-storage.js --network sepolia"
+    "deploy:content-storage": "hardhat run scripts/deploy-content-storage.js --network sepolia",
+    "audit": "node scripts/security-audit.js",
+    "maintenance": "node scripts/network-maintenance.js",
+    "health-check": "npm run maintenance && npm run audit"
   },
   "dependencies": {
     "@bundlr-network/client": "^0.11.17",

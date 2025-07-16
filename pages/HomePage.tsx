@@ -4,6 +4,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import Section from '../components/Section';
 import VideoCard from '../components/VideoCard';
 import FeatureCard from '../components/FeatureCard';
+import PremiumFeatureCard from '../components/PremiumFeatureCard';
 import Icon from '../components/Icon';
 import { RECOMMENDED_VIDEOS, TOP_CREATORS, PLATFORM_FEATURES, THEME_COLORS } from '../constants';
 import { Video } from '../types';
@@ -34,7 +35,10 @@ const HomePage: React.FC<HomePageProps> = ({ onPlayVideo }) => {
             >
               <Icon name="fas fa-video" /> Start Creating
             </button>
-            <button className="px-7 py-3 rounded-full font-semibold text-base bg-transparent text-white border-2 border-white inline-flex items-center justify-center gap-2 hover:-translate-y-0.5 hover:shadow-[0_10px_20px_rgba(0,0,0,0.3)] transition-all duration-300">
+            <button 
+              onClick={() => navigate('/trending')}
+              className="px-7 py-3 rounded-full font-semibold text-base bg-transparent text-white border-2 border-white inline-flex items-center justify-center gap-2 hover:-translate-y-0.5 hover:shadow-[0_10px_20px_rgba(0,0,0,0.3)] transition-all duration-300"
+            >
               <Icon name="fas fa-star" /> Explore Content
             </button>
           </div>
@@ -46,11 +50,22 @@ const HomePage: React.FC<HomePageProps> = ({ onPlayVideo }) => {
         <DecentralizedIpfsUploader />
       </div>
 
-      {/* Platform Features */}
-      <Section title="Platform Features" headerContent={<p className="text-sm text-gray-400 hidden md:block">Everything creators and viewers need</p>}>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          {PLATFORM_FEATURES.map(feature => (
-            <FeatureCard key={feature.title} feature={feature} />
+      {/* Revolutionary Web3 Features */}
+      <Section 
+        title="🚀 Revolutionary Web3 Features" 
+        headerContent={
+          <div className="hidden md:block">
+            <p className="text-sm text-gray-400 mb-1">The future of decentralized content creation</p>
+            <div className="flex items-center space-x-2">
+              <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
+              <span className="text-xs text-green-400 font-medium">Powered by Blockchain Technology</span>
+            </div>
+          </div>
+        }
+      >
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+          {PLATFORM_FEATURES.map((feature, index) => (
+            <PremiumFeatureCard key={feature.title} feature={feature} index={index} />
           ))}
         </div>
       </Section>
