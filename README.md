@@ -12,19 +12,20 @@
 
 ### 🏆 **UNMATCHED SUPERIORITY**
 
-| Feature | NoCensor TV | Traditional Platforms | Other Web3 Platforms |
-|---------|-------------|----------------------|---------------------|
-| **Censorship Resistance** | ✅ **100% Impossible** | ❌ Full Control | ⚠️ Partial |
-| **Creator Revenue** | ✅ **90% (Best in Universe)** | ❌ 45-70% | ⚠️ 70-85% |
-| **Storage Permanence** | ✅ **Forever (Arweave)** | ❌ Can Delete Anytime | ⚠️ Temporary |
-| **Multi-Chain Support** | ✅ **6+ Blockchains** | ❌ None | ⚠️ 1-2 Chains |
-| **Wallet Integration** | ✅ **6+ Wallets** | ❌ None | ⚠️ MetaMask Only |
-| **User Experience** | ✅ **Professional 5-Step** | ⚠️ Complex | ❌ Technical |
-| **True Decentralization** | ✅ **No Servers** | ❌ Centralized | ⚠️ Hybrid |
+| Feature                   | NoCensor TV                   | Traditional Platforms | Other Web3 Platforms |
+| ------------------------- | ----------------------------- | --------------------- | -------------------- |
+| **Censorship Resistance** | ✅ **100% Impossible**        | ❌ Full Control       | ⚠️ Partial           |
+| **Creator Revenue**       | ✅ **90% (Best in Universe)** | ❌ 45-70%             | ⚠️ 70-85%            |
+| **Storage Permanence**    | ✅ **Forever (Arweave)**      | ❌ Can Delete Anytime | ⚠️ Temporary         |
+| **Multi-Chain Support**   | ✅ **6+ Blockchains**         | ❌ None               | ⚠️ 1-2 Chains        |
+| **Wallet Integration**    | ✅ **6+ Wallets**             | ❌ None               | ⚠️ MetaMask Only     |
+| **User Experience**       | ✅ **Professional 5-Step**    | ⚠️ Complex            | ❌ Technical         |
+| **True Decentralization** | ✅ **No Servers**             | ❌ Centralized        | ⚠️ Hybrid            |
 
 ## 🔥 **REVOLUTIONARY FEATURES**
 
 ### 🎯 **Creator Studio - The Most Advanced Upload System**
+
 - **5-Step Guided Process** - Even non-technical creators can upload easily
 - **Professional Drag & Drop** - Modern, intuitive file handling
 - **Real-Time Progress** - See exactly what's happening during upload
@@ -32,13 +33,16 @@
 - **Multi-Format Support** - MP4, MOV, AVI, and more
 
 ### 🛡️ **Permanent Arweave Storage**
+
 - **Forever Storage** - Your content can NEVER be deleted
 - **One-Time Payment** - Pay once, store forever
 - **Censorship Impossible** - No central authority can remove content
 - **Global Distribution** - Stored across thousands of nodes worldwide
 
 ### 💎 **Multi-Chain Web3 Infrastructure**
+
 **Supported Blockchains:**
+
 - 🔷 **Ethereum** - The original smart contract platform
 - 🟣 **Polygon** - Fast and cheap Ethereum scaling
 - 🟡 **BNB Chain** - Binance Smart Chain ecosystem
@@ -47,7 +51,9 @@
 - 🔺 **Avalanche** - High-performance blockchain platform
 
 ### 🔐 **Universal Wallet Support**
+
 **Supported Wallets:**
+
 - 🦊 **MetaMask** - Most popular Ethereum wallet
 - 📱 **WalletConnect** - Connect any mobile wallet
 - 🪙 **Coinbase Wallet** - Coinbase's self-custody wallet
@@ -56,12 +62,14 @@
 - 🌈 **Rainbow** - Beautiful Ethereum wallet
 
 ### 💰 **Creator-First Economics**
+
 - **90% Revenue Share** - Best rate in the entire industry
 - **Instant Payments** - Smart contract automation
 - **No Middlemen** - Direct creator-to-fan transactions
 - **Multiple Access Tiers** - Public, Subscriber, NFT-gated content
 
 ### 🎮 **Advanced Access Controls**
+
 - 🌍 **Public** - Anyone can watch
 - ❤️ **Subscribers** - Only your fans
 - 💎 **NFT Holders** - Exclusive token-gated access
@@ -70,6 +78,7 @@
 ## 🚀 **TECHNICAL EXCELLENCE**
 
 ### **🏗️ Architecture That Dominates**
+
 ```
 ┌─────────────────┐    ┌──────────────────┐    ┌─────────────────┐
 │   Creator UI    │────│  Smart Contracts │────│  Arweave Store  │
@@ -84,6 +93,7 @@
 ```
 
 ### **🔧 Technology Stack**
+
 - **Frontend**: React 19 + TypeScript + Tailwind CSS
 - **Blockchain**: Ethereum, Polygon, BSC, Arbitrum, Optimism, Avalanche
 - **Storage**: Arweave (Permanent) + IPFS (Distributed)
@@ -94,6 +104,7 @@
 ## 🎯 **GETTING STARTED - BECOME PART OF THE REVOLUTION**
 
 ### **🔥 For Creators**
+
 1. **Connect Your Wallet** - Choose from 6+ supported wallets
 2. **Select Your Blockchain** - Pick your preferred network
 3. **Upload Your Content** - Use our professional 5-step process
@@ -103,11 +114,13 @@
 ### **💻 For Developers**
 
 #### **Prerequisites**
+
 - Node.js v18+
 - Git
 - Any Web3 wallet (MetaMask recommended)
 
 #### **Quick Start**
+
 ```bash
 # Clone the universe's best platform
 git clone https://github.com/MukeshCoderDev/nocensor-tv.git
@@ -125,6 +138,7 @@ npm run dev
 ```
 
 #### **Environment Configuration**
+
 ```env
 # Blockchain Networks
 SEPOLIA_RPC_URL=https://sepolia.infura.io/v3/YOUR_KEY
@@ -142,6 +156,7 @@ ARWEAVE_KEY_PATH=./arweave-key.json
 ```
 
 #### **Deployment Commands**
+
 ```bash
 # Deploy smart contracts
 npm run deploy:contracts
@@ -162,6 +177,7 @@ npm run audit
 ## 🌟 **PLATFORM HIGHLIGHTS**
 
 ### **🎨 User Experience**
+
 - **Beautiful Interface** - Modern, professional design
 - **Intuitive Navigation** - Anyone can use it
 - **Mobile Responsive** - Perfect on all devices
@@ -169,12 +185,14 @@ npm run audit
 - **Accessibility** - WCAG compliant
 
 ### **🔒 Security & Privacy**
+
 - **Non-Custodial** - You control your keys
 - **End-to-End Encryption** - Content protected
 - **Audit Trail** - All transactions on blockchain
 - **Privacy First** - No tracking, no data collection
 
 ### **⚡ Performance**
+
 - **Lightning Fast** - Optimized for speed
 - **Global CDN** - Content served worldwide
 - **Efficient Storage** - Smart compression
@@ -183,6 +201,7 @@ npm run audit
 ## 🏆 **ACHIEVEMENTS & RECOGNITION**
 
 ### **🎯 Platform Metrics**
+
 - ✅ **100% Uptime** - Never goes down
 - ✅ **0 Censorship Events** - Impossible to censor
 - ✅ **90% Creator Satisfaction** - Highest in industry
@@ -190,6 +209,7 @@ npm run audit
 - ✅ **Professional Grade UX** - Enterprise quality
 
 ### **🚀 Innovation Awards**
+
 - 🥇 **Most Advanced Web3 Platform**
 - 🥇 **Best Creator Economics**
 - 🥇 **Superior Technical Architecture**
@@ -199,18 +219,21 @@ npm run audit
 ## 🌍 **JOIN THE REVOLUTION**
 
 ### **🎯 For Creators**
+
 - **Upload your first video** in under 5 minutes
 - **Keep 90% of earnings** - industry's best rate
 - **Never worry about censorship** - content stored forever
 - **Reach global audience** - no geographic restrictions
 
 ### **💻 For Developers**
+
 - **Contribute to the future** - open source development
 - **Learn cutting-edge Web3** - advanced blockchain integration
 - **Build on solid foundation** - professional codebase
 - **Join the community** - collaborate with experts
 
 ### **💰 For Investors**
+
 - **Revolutionary technology** - first of its kind
 - **Massive market opportunity** - underserved content space
 - **Strong technical team** - proven execution
@@ -240,4 +263,4 @@ We've built the most advanced, user-friendly, completely decentralized content p
 
 ---
 
-*Built with ❤️ by the NoCensor TV team - Revolutionizing content creation, one upload at a time.*
+_Built with ❤️ by the NoCensor TV team - Revolutionizing content creation, one upload at a time._
