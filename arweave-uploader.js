@@ -398,19 +398,10 @@ export class EnhancedArweaveUploader {
   }
 }
 
-// Legacy function for backward compatibility
+// Production-ready function for real Arweave uploads
 export async function uploadToArweave(fileBuffer, arweaveKey, options = {}) {
-  // Auto-enable demo mode for development/testing
-  const isDemoMode = process.env.NODE_ENV === 'development' || 
-                     (typeof window !== 'undefined' && window.location.hostname === 'localhost') ||
-                     (typeof window !== 'undefined' && window.ARWEAVE_DEMO_MODE);
-  
-  if (isDemoMode) {
-    const { DemoArweaveUploader } = await import('./src/components/arweave/DemoArweaveUploader.tsx');
-    const demoUploader = new DemoArweaveUploader();
-    const result = await demoUploader.uploadToArweave(fileBuffer, arweaveKey, options);
-    return result.transactionId;
-  }
+  // Force production mode - always use real Arweave uploads
+  console.log('🚀 Production Mode: Using real Arweave uploads');
   
   const uploader = new EnhancedArweaveUploader();
   const result = await uploader.uploadToArweave(fileBuffer, arweaveKey, options);

@@ -55,6 +55,50 @@ const StudioUploadPage: React.FC<StudioUploadPageProps> = ({ showNotification })
 
   const [selectedVideoFile, setSelectedVideoFile] = useState<File | null>(null);
   const [isUploading, setIsUploading] = useState(false);
+  const [arweaveKey, setArweaveKey] = useState<any>(null);
+  const [walletInfo, setWalletInfo] = useState<any>(null);
+  const [isValidatingWallet, setIsValidatingWallet] = useState(false);
+  const [walletError, setWalletError] = useState<any>(null);
+
+  const handleWalletLoaded = async (wallet: any) => {
+    setIsValidatingWallet(true);
+    setWalletError(null);
+    
+    try {
+      setArweaveKey(wallet);
+      
+      // Simulate wallet info retrieval (this would be replaced with actual Arweave API calls)
+      await new Promise(resolve => setTimeout(resolve, 1000));
+      
+      // Generate a mock wallet address from the key
+      const mockAddress = `${wallet.n.substring(0, 43)}...`;
+      const formattedAddress = `${mockAddress.substring(0, 6)}...${mockAddress.substring(mockAddress.length - 4)}`;
+      
+      setWalletInfo({
+        address: mockAddress,
+        formattedAddress,
+        balance: 0.5,
+        formattedBalance: '0.5 AR'
+      });
+      
+      showNotification('Arweave wallet loaded successfully!', 'success');
+    } catch (err) {
+      setWalletError({
+        type: 'network',
+        message: 'Failed to retrieve wallet information',
+        recoverable: true
+      });
+    } finally {
+      setIsValidatingWallet(false);
+    }
+  };
+
+  const handleWalletError = (error: any) => {
+    setWalletError(error);
+    setArweaveKey(null);
+    setWalletInfo(null);
+    showNotification('Failed to load wallet key. Please try again.', 'error');
+  };
 
   const handleFormSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
@@ -70,7 +114,10 @@ const StudioUploadPage: React.FC<StudioUploadPageProps> = ({ showNotification })
       return;
     }
 
-    // Note: Arweave upload is now handled by the ArweaveFeatureCard component
+    if (!arweaveKey) {
+      showNotification('Please load your Arweave wallet key first', 'error');
+      return;
+    }
 
     setIsUploading(true);
     
@@ -95,9 +142,18 @@ const StudioUploadPage: React.FC<StudioUploadPageProps> = ({ showNotification })
       const arrayBuffer = await selectedVideoFile.arrayBuffer();
       const uint8Array = new Uint8Array(arrayBuffer);
       
-      // Note: This is now a placeholder - actual Arweave upload is handled by the ArweaveFeatureCard
-      // For demo purposes, we'll simulate a successful upload
-      const transactionId = `DEMO_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+      // Upload to Arweave with the user's actual wallet key and metadata
+      const transactionId = await uploadToArweave(uint8Array, arweaveKey, {
+        contentType: 'video/mp4',
+        tags: {
+          'Title': videoTitle,
+          'Description': description,
+          'Category': category,
+          'Access-Control': accessControl,
+          'Price': price || '0',
+          'Creator': 'NoCensor-TV-Creator'
+        }
+      });
       
       showNotification(`Video uploaded to Arweave! Transaction ID: ${transactionId}`, 'success');
       
@@ -118,7 +174,8 @@ const StudioUploadPage: React.FC<StudioUploadPageProps> = ({ showNotification })
       setSelectedVideoFile(null);
       
     } catch (error) {
-      showNotification('Upload failed. Please try again.', 'error');
+      console.error('Upload error:', error);
+      showNotification(`Upload failed: ${error.message || 'Please try again.'}`, 'error');
     } finally {
       setIsUploading(false);
     }
