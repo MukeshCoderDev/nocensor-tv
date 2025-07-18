@@ -25,7 +25,7 @@ import PlaceholderPage from './pages/PlaceholderPage';
 import VideoPlayerModal from './components/VideoPlayerModal';
 import Notification from './components/Notification';
 import { useWeb3Modal } from '@web3modal/ethers/react';
-import './index.css';
+import '../index.css';
 import { User, Video, PageId } from './types';
 import { SIDEBAR_MENU, RECOMMENDED_VIDEOS } from './constants';
 
