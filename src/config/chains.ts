@@ -1,4 +1,4 @@
-import { sepolia, polygon, bnbSmartChain, arbitrum, optimism, avalanche } from '@web3modal/ethers/chains';
+import { sepolia, polygon, bnbSmartChain, arbitrum, optimism, avalanche } from '@web3modal/ethers';
 
 export { sepolia }; // Export sepolia specifically
 
